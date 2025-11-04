@@ -27,7 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.robotcontroller.external.samples.externalhardware;
+
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -59,11 +61,15 @@ public class RobotHardware {
     private LinearOpMode myOpMode = null;   // gain access to methods in the calling OpMode.
 
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
-    private DcMotor leftDrive   = null;
-    private DcMotor rightDrive  = null;
+   // private DcMotor leftDrive   = null;
+ //   private DcMotor rightDrive  = null;
     private DcMotor armMotor = null;
+    private DcMotor intakeMotor;
     private Servo   leftHand = null;
     private Servo   rightHand = null;
+    public Servo RightShooting;
+    public Servo DoorServo;
+
 
     // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
     public static final double MID_SERVO       =  0.5 ;
@@ -83,16 +89,23 @@ public class RobotHardware {
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
     public void init()    {
+        RightShooting = hardwareMap.get(Servo.class, "Door");
+        DoorServo = hardwareMap.get(Servo.class, "Door");
+        intakeMotor = hardwareMap.get(DcMotor.class, "intake_motor");
+
         // Define and Initialize Motors (note: need to use reference to actual OpMode).
-        leftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_drive");
-        armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "arm");
+     //   leftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "left_drive");
+       // rightDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_drive");
+       // armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "arm");
+
+
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        //leftDrive.setDirection(DcMotor.Direction.REVERSE);
+     //   rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // If there are encoders connected, switch to RUN_USING_ENCODER mode for greater accuracy
         // leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -141,8 +154,8 @@ public class RobotHardware {
      */
     public void setDrivePower(double leftWheel, double rightWheel) {
         // Output the values to the motor drives.
-        leftDrive.setPower(leftWheel);
-        rightDrive.setPower(rightWheel);
+        //leftDrive.setPower(leftWheel);
+       // rightDrive.setPower(rightWheel);
     }
 
     /**
