@@ -33,11 +33,18 @@ import android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.List;
 
@@ -66,8 +73,10 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Concept: AprilTag", group = "Concept")
-@Disabled
+
 public class ConceptAprilTag extends LinearOpMode {
+    DcMotorEx motor;
+    CRServo servo;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -84,16 +93,29 @@ public class ConceptAprilTag extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+
         initAprilTag();
 
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch START to start OpMode");
         telemetry.update();
+
+        motor = hardwareMap.get(DcMotorEx.class, "CoreHex");
+      //  motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      //  motor.setVelocityPIDFCoefficients(1.137743055555556, 0.1137743055555556, 0, 11.37743055555556);
+        motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(1.137743055555556, 0.1137743055555556, 0, 11.37743055555556));
+
+        servo = hardwareMap.get(CRServo.class, "servo");
+
+
         waitForStart();
 
         if (opModeIsActive()) {
+
+
             while (opModeIsActive()) {
+
 
                 telemetryAprilTag();
 
@@ -125,21 +147,21 @@ public class ConceptAprilTag extends LinearOpMode {
         // Create the AprilTag processor.
         aprilTag = new AprilTagProcessor.Builder()
 
-            // The following default settings are available to un-comment and edit as needed.
-            //.setDrawAxes(false)
-            //.setDrawCubeProjection(false)
-            //.setDrawTagOutline(true)
-            //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
-            //.setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
-            //.setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
+                // The following default settings are available to un-comment and edit as needed.
+                //.setDrawAxes(false)
+                //.setDrawCubeProjection(false)
+                //.setDrawTagOutline(true)
+                //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
+                //.setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
+                //.setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
 
-            // == CAMERA CALIBRATION ==
-            // If you do not manually specify calibration parameters, the SDK will attempt
-            // to load a predefined calibration for your camera.
-            //.setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
-            // ... these parameters are fx, fy, cx, cy.
+                // == CAMERA CALIBRATION ==
+                // If you do not manually specify calibration parameters, the SDK will attempt
+                // to load a predefined calibration for your camera.
+                //.setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
+                // ... these parameters are fx, fy, cx, cy.
 
-            .build();
+                .build();
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
@@ -212,6 +234,68 @@ public class ConceptAprilTag extends LinearOpMode {
         telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
         telemetry.addLine("RBE = Range, Bearing & Elevation");
 
-    }   // end method telemetryAprilTag()
+        for (AprilTagDetection detection : currentDetections) {
+//            if (detection.id == 20) {
+//                double distance = detection.ftcPose.range;  // inches
+//
+//                if (distance < 30) {
+//                    motor.setPower(0.3);   // close
+//                } else if (distance < 40) {
+//                    motor.setPower(0.4);
+//                } else if (distance < 50) {
+//                    motor.setPower(0.5);
+//                } else if(distance < 60);{
+//                    motor.setPower(0.6);
+//                }
+//                } else {
+//                    motor.setPower(1);   // far
+//                }
 
-}   // end class
+            if (detection.id == 20){
+                double bearing = detection.ftcPose.bearing;
+
+                if (bearing > 0.3){
+                    servo.setPower(-0.5);
+                }
+
+                else if (bearing < -0.3){
+                    servo.setPower(0.5);
+                }
+
+                else {
+                    servo.setPower(0);
+                }
+
+
+
+            }
+
+
+
+        }
+    }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+      // end method telemetryAprilTag()
+
+
+
+// end class

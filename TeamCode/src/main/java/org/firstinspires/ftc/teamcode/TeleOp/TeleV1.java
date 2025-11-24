@@ -119,7 +119,7 @@ public class TeleV1 extends OpMode {
 
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
-   //     outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         /*
@@ -141,7 +141,10 @@ public class TeleV1 extends OpMode {
 //        leftFeeder.setPower(STOP_SPEED);
 //        rightFeeder.setPower(STOP_SPEED);
 
-     outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(15, 0, 0., 10));
+     //outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(1.137743055555556, 0.1137743055555556, 0, 11.37743055555556))
+        outtake.setVelocityPIDFCoefficients(1.137743055555556, 0.1137743055555556, 0, 11.37743055555556);//VelocityPIDF is temporary haven't te did it cuz it was on guide    sted yet
+
+     outtake.setPositionPIDFCoefficients(5);
 
 
         /*
