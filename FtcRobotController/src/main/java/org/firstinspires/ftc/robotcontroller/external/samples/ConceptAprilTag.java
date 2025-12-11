@@ -156,7 +156,7 @@ public class ConceptAprilTag extends LinearOpMode {
                 //.setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
                 //.setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
 
-                // == CAMERA CALIBRATION ==
+                // == CA MERA CALIBRATION ==
                 // If you do not manually s    pecify calibra          tion parameters, the SDK will attempt
                 // to load a predefined calibration for your camera.
                 //.setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
