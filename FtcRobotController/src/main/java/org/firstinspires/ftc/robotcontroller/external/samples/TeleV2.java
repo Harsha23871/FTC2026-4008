@@ -70,7 +70,7 @@ import java.util.List;
  * There are many "default" VisionP    n ortal and AprilTag configuration parameters that may be overridden if desired.
  * These default parameters are shown as comments in the code below.
  *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Use Android Studio to Copy this C  lass, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the D       river Station OpMode list.
  */
 @TeleOp(name = "TeleBlue", group = "StarterBot")
