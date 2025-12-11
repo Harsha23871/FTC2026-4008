@@ -71,7 +71,7 @@ import java.util.List;
  * These default parameters are shown as comments in the code below.
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
+ * Remove or comment out the @Disabled line to add this OpMode to the D       river Station OpMode list.
  */
 @TeleOp(name = "TeleBlue", group = "StarterBot")
 
