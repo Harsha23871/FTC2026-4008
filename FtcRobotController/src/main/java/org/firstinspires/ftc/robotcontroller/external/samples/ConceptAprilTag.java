@@ -61,7 +61,7 @@ import java.util.List;
  *
  * When an AprilTag in the TagLibrary is detected, the SDK provides location and orientation of the tag, relative to the camera.
  * This information is provided in the "ftcPose" member of the returned "detection", and is explained in the ftc-docs page linked below.
- * https://ftc-docs.firstinspires.org/apriltag-detection-values
+ * https://ftc-docs.firstinspires.org/apriv    ltag-detection-values
  *
  * To experiment with using AprilTags to navigate, try out these two driving samples:
  * RobotAutoDriveToAprilTagOmni and RobotAutoDriveToAprilTagTank

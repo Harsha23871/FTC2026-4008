@@ -67,7 +67,7 @@ import java.util.List;
  * To experiment with using AprilTags to navigate, try out these two driving samples:
  * RobotAutoDriveToAprilTagOmni and R   obotAutoDriveToAprilTagTank
  *
- * There are many "default" VisionPortal and AprilTag configuration parameters that may be overridden if desired.
+ * There are many "default" VisionP    n ortal and AprilTag configuration parameters that may be overridden if desired.
  * These default parameters are shown as comments in the code below.
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
