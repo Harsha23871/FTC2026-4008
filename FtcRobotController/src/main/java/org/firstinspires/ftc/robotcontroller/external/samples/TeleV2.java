@@ -361,7 +361,7 @@ public class TeleV2 extends LinearOpMode {
         for (AprilTagDetection detection : currentDetections) {
                 if (detection.id == 20){
                     double bearing = detection.ftcPose.bearing;
-
+                    //TurretServo.setPower(bearing);
                     if (bearing > 1){
                         TurretServo.setPower(0.5);
                     }

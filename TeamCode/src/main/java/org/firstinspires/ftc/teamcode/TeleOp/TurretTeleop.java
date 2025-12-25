@@ -30,7 +30,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.List;
 
 
-@TeleOp(name = "TurretTele", group = "StarterBot")
+@TeleOp(name = "Shooting Regression Testing", group = "StarterBot")
 //@Disabled
 public class TurretTeleop extends OpMode  {
     final double FEED_TIME_SECONDS = 0.80; //The feeder servos run this long when a shot is requested.
@@ -56,13 +56,13 @@ public class TurretTeleop extends OpMode  {
     private DcMotor leftBackDrive = null;
     private DcMotor rightBackDrive = null;
     private DcMotorEx outtake = null;
-
+//
     private DcMotor intake = null;
-    private CRServo leftFeeder = null;
-    private CRServo rightFeeder = null;
-    private Servo diverter = null;
-    private Servo Angle = null;
-    private CRServo Aim = null;
+//    private CRServo leftFeeder = null;
+//    private CRServo rightFeeder = null;
+//    private Servo diverter = null;
+//    private Servo Angle = null;
+//    private CRServo Aim = null;
 
 
     ElapsedTime leftFeederTimer = new ElapsedTime();
@@ -117,17 +117,17 @@ public class TurretTeleop extends OpMode  {
         rightLaunchState = LaunchState.IDLE;
 
         ConceptAprilTag.init();
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "LF");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "RF");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "LB");
+        rightBackDrive = hardwareMap.get(DcMotor.class, "RB");
         outtake = hardwareMap.get(DcMotorEx.class, "outtake");
-        intake = hardwareMap.get(DcMotor.class, "intake");
-        leftFeeder = hardwareMap.get(CRServo.class, "left_feeder");
-        rightFeeder = hardwareMap.get(CRServo.class, "right_feeder");
-      //  diverter = hardwareMap.get(Servo.class, "diverter");
-        Angle = hardwareMap.get(Servo.class,"Angle");
-        Aim = hardwareMap.get(CRServo.class, "Aim");
+       intake = hardwareMap.get(DcMotor.class, "intake");
+//        leftFeeder = hardwareMap.get(CRServo.class, "left_feeder");
+//        rightFeeder = hardwareMap.get(CRServo.class, "right_feeder");
+//      //  diverter = hardwareMap.get(Servo.class, "diverter");
+//        Angle = hardwareMap.get(Servo.class,"Angle");
+//        Aim = hardwareMap.get(CRServo.class, "Aim");
         /*
          * To drive forward, most robots need the motor on one side to be reversed,
          * because the axles point in opposite directions. Pushing the left stick forward
@@ -141,8 +141,9 @@ public class TurretTeleop extends OpMode  {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         outtake.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+//        intake.setDirection(DcMotorSimple.Direction.REVERSE);
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
 
         /*
@@ -155,7 +156,7 @@ public class TurretTeleop extends OpMode  {
         leftBackDrive.setZeroPowerBehavior(BRAKE);
         rightBackDrive.setZeroPowerBehavior(BRAKE);
         outtake.setZeroPowerBehavior(BRAKE);
-        intake.setZeroPowerBehavior(BRAKE);
+//        intake.setZeroPowerBehavior(BRAKE);
 
 
         /*
@@ -167,14 +168,14 @@ public class TurretTeleop extends OpMode  {
         //outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(1.137743055555556, 0.1137743055555556, 0, 11.37743055555556))
         outtake.setVelocityPIDFCoefficients(1.137743055555556, 0.1137743055555556, 0, 11.37743055555556);//VelocityPIDF is temporary haven't te did it cuz it was on guide    sted yet
 
-        outtake.setPositionPIDFCoefficients(5);
+//        outtake.setPositionPIDFCoefficients(5);
 
 
         /*
          * Much like our drivetrain motors, we set the left feeder servo to reverse so that they
          * both work to feed the ball into the robot.
          */
-        rightFeeder.setDirection(DcMotorSimple.Direction.FORWARD);
+//        rightFeeder.setDirection(DcMotorSimple.Direction.FORWARD);
 
         /*
          * Tell the driver that initialization is complete.
@@ -209,7 +210,7 @@ public class TurretTeleop extends OpMode  {
          * queuing a shot.
          */
         if (gamepad2.y) {
-            outtake.setPower(0.6);
+            outtake.setPower(-0.8);
 
         } else if (gamepad2.b) { // stop flywheel
             outtake.setPower(0);
@@ -217,7 +218,7 @@ public class TurretTeleop extends OpMode  {
         }
 
         if (gamepad2.x) {
-            outtake.setPower(-0.3);
+            outtake.setPower(0.8);
         } else if (gamepad2.b) { // stop flywheel
             outtake.setPower(0);
 
@@ -252,14 +253,14 @@ public class TurretTeleop extends OpMode  {
 //                    break;
 //            }
 //        }
-        if (gamepad1.right_trigger > 0.2) {
-            intake.setPower(1);
-
-        } else if (gamepad1.left_trigger > 0.2) {
-            intake.setPower(-1);
-        } else{
-            intake.setPower(0);
-        }
+//        if (gamepad1.right_trigger > 0.2) {
+//            intake.setPower(1);
+//
+//        } else if (gamepad1.left_trigger > 0.2) {
+//            intake.setPower(-1);
+//        } else{
+//            intake.setPower(0);
+//        }
 
 
 
@@ -284,32 +285,32 @@ public class TurretTeleop extends OpMode  {
 
 
 
-
-        if (gamepad2.left_trigger > 0.2) {
-            leftFeeder.setPower(1);
-            rightFeeder.setPower(1);
-
-        } else if (gamepad2.left_bumper) {
-            leftFeeder.setPower(-0.5);
-            leftFeeder.setPower(-0.5);
-        } else {
-            leftFeeder.setPower(0);
-            rightFeeder.setPower(0);
-        }
-
-        if (gamepad1.a) {
-            Aim.setPower(0.5);
-        } else if (gamepad1.b) {
-            Aim.setPower(-0.5);
-        }
-
-        if (gamepad1.x) {
-            Aim.setPower(0.5);
-        } else if (gamepad1.y) {
-            Aim.setPower(-0.5);
-        } else {
-            Aim.setPower(0);
-        }
+//
+//        if (gamepad2.left_trigger > 0.2) {
+//            leftFeeder.setPower(1);
+//            rightFeeder.setPower(1);
+//
+//        } else if (gamepad2.left_bumper) {
+//            leftFeeder.setPower(-0.5);
+//            leftFeeder.setPower(-0.5);
+//        } else {
+//            leftFeeder.setPower(0);
+//            rightFeeder.setPower(0);
+//        }
+//
+//        if (gamepad1.a) {
+//            Aim.setPower(0.5);
+//        } else if (gamepad1.b) {
+//            Aim.setPower(-0.5);
+//        }
+//
+//        if (gamepad1.x) {
+//            Aim.setPower(0.5);
+//        } else if (gamepad1.y) {
+//            Aim.setPower(-0.5);
+//        } else {
+//            Aim.setPower(0);
+//        }
 
 
 
