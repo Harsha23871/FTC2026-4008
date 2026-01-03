@@ -27,14 +27,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode.tuning;
 
-import android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -42,26 +39,22 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.Servo;
-
 import java.util.List;
 
 /*
  * This OpMode illustrates the basics of AprilTag recognition and pose estimation,
- * including Java Builder structures for specifying Vi    sion parameters.
+ * including Java Builder structures for specifying Vision parameters.
  *
  * For an introduction to AprilTags, see the FTC-DOCS link below:
- * https://ftc-docs.firstinspires.org/en/lates     t/apriltag/vision_portal/apriltag_intro/apriltag-intro.html
+ * https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_intro/apriltag-intro.html
  *
  * In this sample, any visible tag ID will be detected and displayed, but only tags that are included in the default
- * "TagLibrary" will have their      position and orientation information displayed.  This default TagLibrary contains
+ * "TagLibrary" will have their position and orientation information displayed.  This default TagLibrary contains
  * the current Season's AprilTags and a small set of "test Tags" in the high number range.
  *
  * When an AprilTag in the TagLibrary is detected, the SDK provides location and orientation of the tag, relative to the camera.
  * This information is provided in the "ftcPose" member of the returned "detection", and is explained in the ftc-docs page linked below.
- * https://ftc-docs.firstinspires.org/apriv    ltag-detection-values
+ * https://ftc-docs.firstinspires.org/apriltag-detection-values
  *
  * To experiment with using AprilTags to navigate, try out these two driving samples:
  * RobotAutoDriveToAprilTagOmni and RobotAutoDriveToAprilTagTank
@@ -73,10 +66,8 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Concept: AprilTag", group = "Concept")
-
-public class ConceptAprilTag extends LinearOpMode {
-    DcMotorEx motor;
-    CRServo servo;
+@Disabled
+public class April extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -93,30 +84,16 @@ public class ConceptAprilTag extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-
         initAprilTag();
 
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch START to start OpMode");
         telemetry.update();
-
-        motor = hardwareMap.get(DcMotorEx.class, "outtake"); // tune this
-       // motor = hardwareMap.get(DcMotorEx.class, "CoreHex");
-      //  motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-      //  motor.setVelocityPIDFCoefficients(1.137743055555556, 0.1137743055555556, 0, 11.37743055555556);
-        motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(1.137743055555556, 0.1137743055555556, 0, 11.37743055555556));
-
-        servo = hardwareMap.get(CRServo.class, "Angle");
-
-
         waitForStart();
 
         if (opModeIsActive()) {
-
-
             while (opModeIsActive()) {
-
 
                 telemetryAprilTag();
 
@@ -148,21 +125,21 @@ public class ConceptAprilTag extends LinearOpMode {
         // Create the AprilTag processor.
         aprilTag = new AprilTagProcessor.Builder()
 
-                // The following default settings are available to un-comment and edit as needed.
-                //.setDrawAxes(false)
-                //.setDrawCubeProjection(false)
-                //.setDrawTagOutline(true)
-                //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
-                //.setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
-                //.setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
+            // The following default settings are available to un-comment and edit as needed.
+            //.setDrawAxes(false)
+            //.setDrawCubeProjection(false)
+            //.setDrawTagOutline(true)
+            //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
+            //.setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
+            //.setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
 
-                // == CA MERA CALIBRATION ==
-                // If you do not manually s    pecify calibra          tion parameters, the SDK will attempt
-                // to load a predefined calibration for your camera.
-                //.setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
-                // ... these parameters are fx, fy, cx, cy.
+            // == CAMERA CALIBRATION ==
+            // If you do not manually specify calibration parameters, the SDK will attempt
+            // to load a predefined calibration for your camera.
+            //.setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
+            // ... these parameters are fx, fy, cx, cy.
 
-                .build();
+            .build();
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
@@ -219,8 +196,6 @@ public class ConceptAprilTag extends LinearOpMode {
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
-
-
             if (detection.metadata != null) {
                 telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
                 telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
@@ -237,124 +212,6 @@ public class ConceptAprilTag extends LinearOpMode {
         telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
         telemetry.addLine("RBE = Range, Bearing & Elevation");
 
-        for (AprilTagDetection detection : currentDetections) {
+    }   // end method telemetryAprilTag()
 
-            if (detection.id == 20) {
-
-                double bearing = detection.ftcPose.bearing;   // degrees left/right
-
-                // --- SIMPLE TURRET TRACKING ---
-                double deadzone = 2.0;     // ±2 degrees = centered
-                double turnPower = 0.4;    // CRServo speed
-
-                if (bearing > deadzone) {
-                    // Target is RIGHT → turn turret RIGHT
-                    servo.setPower(turnPower);
-                }
-                else if (bearing < -deadzone) {
-                    // Target is LEFT → turn turret LEFT
-                    servo.setPower(-turnPower);
-                }
-                else {
-                    // Target centered → stop turret
-                    servo.setPower(0);
-                }
-            }
-
-
-//            if (detection.id == 20) {
-//                double distance = detection.ftcPose.range;  // inches
-//
-//                if (distance < 30) {
-//                    motor.setPower(0.3);   // close
-//                } else if (distance < 40) {
-//                    motor.setPower(0.4);
-//                } else if (distance < 50) {
-//                    motor.setPower(0.5);
-//                } else if(distance < 60);{
-//                    motor.setPower(0.6);
-//                }
-//                } else {
-//                    motor.setPower(1);   // far
-//                }
-
-/*            if (detection.id == 20) {
-                double distance = detection.ftcPose.range;  // inches
-                motor.setPower(distance/100 + 0.04); // test
-
-                if (distance < 30) {
-                    motor.setPower(0.3);   // close
-                } else if (distance < 40) {
-                    motor.setPower(0.4);
-                } else if (distance < 50) {
-                    motor.setPower(0.5);
-                } else if(distance < 60);{
-                    motor.setPower(0.6);
-                }
-                } else {
-                   motor.setPower(1);   // far
-                }*/
-
-
-
-
-
-
-
-
-
-
-            if (detection.id == 20){
-                double bearing = detection.ftcPose.bearing;
-                double distance = detection.ftcPose.range;  // inches
-
-                if (distance < 100) {
-                    motor.setPower(distance / 100 + 0.05); // tune both for curved scaling
-                    servo.setPower(distance / 150);
-                }
-                if (bearing > 0.3){
-                    servo.setPower(-0.5);
-                }
-
-                else if (bearing < -0.3){
-                    servo.setPower(0.5);
-                }
-
-                else {
-                    servo.setPower(0);
-                }
-
-
-
-            }
-
-
-
-        }
-    }
-
-
-
-
-
-
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-      // end method telemetryAprilTag()
-
-
-
-// end class
+}   // end class
